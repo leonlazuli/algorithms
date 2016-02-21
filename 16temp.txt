@@ -1,0 +1,57 @@
+#include <iostream>
+#include <ctime>
+#include <stdlib.h>
+
+using namespace std;
+
+void printArray(int* arr, int n){
+	for(int i = 0; i < n; i++){
+		cout << arr[i] << ' ';
+	}
+	cout << endl;
+}
+
+void swap(int* arr, int i, int j){
+	int temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+}
+
+void qSort(int* arr, int left, int right){
+	if(left >= right)
+		return;
+	int pivot = left + rand()  % (right - left + 1);
+	int pivotValue = arr[pivot];
+	swap(arr,left,pivot);
+	int i = left;
+	int j = right + 1;
+	while(i < j){
+		while(i < right && arr[++i] < pivotValue);
+		while(j > left && arr[--j] > pivotValue);
+		if(i < j)
+			swap(arr, i, j);
+	}
+	swap(arr,left,j);
+	qSort(arr,left, j-1);
+	qSort(arr,j+1, right);
+}
+
+void quickSort(int* arr, int n){
+	qSort(arr,0, n-1);
+}
+
+
+int main(){
+	int arr[1000];
+	const int max = 100;
+	const int n = 30;
+
+	srand((unsigned)time(NULL));
+	for(int i = 0; i < n; i++){
+		arr[i] = rand() % max;
+	}
+	printArray(arr,n);
+	quickSort(arr, n);
+	printArray(arr,n);
+	return 0;
+}
